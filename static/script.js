@@ -15,3 +15,22 @@ function toggleDarkmode() {
 function erase() {
     document.getElementById("message").value = "";
   }
+
+document.getElementById('upload-btn').addEventListener('change',async function(e) {
+
+  const image=e.target.files[0]
+  console.log(image);
+  const formData = new FormData();
+  formData.append("image", image);
+  try {
+    const response = await fetch("http://localhost:5000/upload", {
+      method: "POST",
+      body: formData,
+    });
+    const responseData = await response.json();
+    console.log(responseData.response)
+    document.getElementById('message').value=responseData.response
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+});
